@@ -1,0 +1,148 @@
+<section class="insight-tile-container">
+    <mat-card class="card">
+        <mat-card-subtitle>Budget Total Of Each Division</mat-card-subtitle>
+        <div class="total-text"> Accounting: {{ statData.totalAccounting | currency: 'USD':'symbol':'1.0-0'}}</div>
+        <div class="total-text"> Administration: {{ statData.totalAdministration | currency: 'USD':'symbol':'1.0-0'}}
+        </div>
+        <div class="total-text"> Sales: {{ statData.totalSales| currency: 'USD':'symbol':'1.0-0'}}</div>
+        <div class="total-text"> Marketing: {{ statData.totalMarketing| currency: 'USD':'symbol':'1.0-0'}}</div>
+        <div class="total-text"> Production: {{ statData.totalProduction| currency: 'USD':'symbol':'1.0-0'}}</div>
+    </mat-card>
+    <mat-card class="card">
+        <mat-card-subtitle>Project Status Count</mat-card-subtitle>
+        <div class="total-text"> New: {{ statData.newStatusCount}}</div>
+        <div class="total-text"> Working: {{ statData.workingStatusCount}}</div>
+        <div class="total-text"> Delivered: {{ statData.deliveredStatusCount}}</div>
+        <div class="total-text"> Archived: {{ statData.archivedStatusCount}}</div>
+    </mat-card>
+</section>
+
+<section class="search-filter-container">
+    <mat-card>
+        <h2>Search and Filter Options</h2>
+        <form [formGroup]="searchFilterForm" class="search-form">
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="titleInput" (keyup)="applyFilter()">
+            </mat-form-field>
+
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Division</mat-label>
+                <input type="text" matInput formControlName="divisionInput" (keyup)="applyFilter()">
+            </mat-form-field>
+
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Project Owner</mat-label>
+                <input type="text" matInput formControlName="projectOwnerInput" (keyup)="applyFilter()">
+            </mat-form-field>
+
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Budget</mat-label>
+                <input type="text" matInput formControlName="budgetInput" (keyup)="applyFilter()">
+            </mat-form-field>
+
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Status</mat-label>
+                <input type="text" matInput formControlName="statusInput" (keyup)="applyFilter()">
+            </mat-form-field>
+
+            <mat-form-field class="search-form-field" appearance="outline">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker">
+                    <input matStartDate formControlName="createdDateInput" placeholder="Start date"
+                        (dateInput)="applyFilter()">
+                    <input matEndDate formControlName="modifiedDateInput" placeholder="End date"
+                        (dateInput)="applyFilter()">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker></mat-date-range-picker>
+            </mat-form-field>
+        </form>
+    </mat-card>
+</section>
+
+<section class="new-record-export">
+    <button class="new-record-export-button" mat-raised-button disabled>Add new record</button>
+    <mat-form-field class="new-record-export-select" appearance="fill">
+        <mat-label>Export</mat-label>
+        <mat-select [disabled]="true">
+            <mat-option value="option1">Excel</mat-option>
+            <mat-option value="option2">PDF</mat-option>
+        </mat-select>
+    </mat-form-field>
+</section>
+
+<section class="search-table mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="division">
+            <th mat-header-cell *matHeaderCellDef>Division</th>
+            <td mat-cell *matCellDef="let row"> {{row.division}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="project_owner">
+            <th mat-header-cell *matHeaderCellDef>Project Owner</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-form-field floatLabel="never">
+                    <input matInput placeholder="Project Owner" [value]="row.project_owner"
+                        [(ngModel)]="row.project_owner" (change)="updateText()">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="budget">
+            <th mat-header-cell *matHeaderCellDef>Budget</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-form-field floatLabel="never">
+                    <input matInput placeholder="Budget" [value]="row.budget"
+                        [ngModel]="row.budget | currency: 'USD':'symbol':'1.0'" (ngModelChange)="row.budget=$event"
+                        (change)="updateText()">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-form-field floatLabel="never">
+                    <input matInput placeholder="Status" [value]="row.status" [(ngModel)]="row.status"
+                        (change)="updateText()">
+                </mat-form-field>
+            </td>
+            <mat-cell *matCellDef="let element">
+
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="created_date">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let row"> {{row.created | date: 'MM/dd/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modified_date">
+            <th mat-header-cell *matHeaderCellDef>Modified Date</th>
+            <td mat-cell *matCellDef="let row">
+                <ng-container *ngIf="row.modified !== ' '">
+                    {{row.modified | date: 'MM/dd/yyyy'}}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="more_info">
+            <th mat-header-cell *matHeaderCellDef>More Info</th>
+            <td mat-cell *matCellDef="let row">
+                <a mat-raised-button disabled routerLink=".">More Info</a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+</section>

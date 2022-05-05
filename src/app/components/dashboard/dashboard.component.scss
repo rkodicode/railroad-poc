@@ -1,0 +1,62 @@
+:host {
+    .insight-tile-container {
+        margin: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        .card {
+            width: 350px;
+
+            .total-text {
+                padding-bottom: 5px;
+            }
+        }
+    }
+
+    .search-filter-container {
+        margin: 20px;
+
+        .search {
+            &-form {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+
+                &-field {
+                    width: 250px;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .search-filter-button {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .new-record-export {
+        display: flex;
+        justify-content: right;
+        margin: 20px;
+
+        &-button {
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        &-select {
+            height: 55px;
+            padding: 0;
+        }
+    }
+
+    .search-table {
+        margin: 20px;
+    }
+
+    table {
+        width: 100%;
+    }
+}
