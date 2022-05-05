@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { DISPLAY_COLUMNS } from 'src/app/common/constants/dashboard.constant';
-import { mockData } from 'src/app/common/mock-data';
+import { DISPLAY_COLUMNS } from '../../common/constants/dashboard.constant';
+import { mockData } from '../../common/mock-data';
 import {
   DashboardData,
   statData,
-} from 'src/app/common/model/dashboard.interface';
+} from '../../common/model/dashboard.interface';
 
 @Component({
   selector: 'dashboard',
